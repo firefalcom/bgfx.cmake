@@ -86,15 +86,10 @@ target_include_directories( bgfx
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 # bgfx depends on bx and bimg
-target_link_libraries( bgfx PUBLIC bx bimg )
+target_link_libraries( bgfx PRIVATE bx bimg )
 
-# ovr support
-if( BGFX_USE_OVR )
-	target_link_libraries( bgfx PUBLIC ovr )
-endif()
-
-# Frameworks required on iOS and macOS
-if( IOS )
+# Frameworks required on iOS, tvOS and macOS
+if( ${CMAKE_SYSTEM_NAME} MATCHES iOS|tvOS )
 	target_link_libraries (bgfx PUBLIC "-framework OpenGLES  -framework Metal -framework UIKit -framework CoreGraphics -framework QuartzCore")
 elseif( APPLE )
 	find_library( COCOA_LIBRARY Cocoa )

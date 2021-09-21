@@ -14,11 +14,12 @@ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/generated/vertexlayout.cpp.in
 target_sources( bgfx-vertexlayout INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/generated/vertexlayout.cpp )
 target_include_directories( bgfx-vertexlayout INTERFACE ${BGFX_DIR}/include )
 
-add_library( bgfx-shader-spirv INTERFACE )
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/generated/shader_spirv.cpp.in
-                ${CMAKE_CURRENT_BINARY_DIR}/generated/shader_spirv.cpp )
-target_sources( bgfx-shader-spirv INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/generated/shader_spirv.cpp )
-target_include_directories( bgfx-shader-spirv INTERFACE ${BGFX_DIR}/include )
+add_library( bgfx-shader INTERFACE )
+
+configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/generated/shader.cpp.in
+                ${CMAKE_CURRENT_BINARY_DIR}/generated/shader.cpp )
+target_sources( bgfx-shader INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/generated/shader.cpp )
+target_include_directories( bgfx-shader INTERFACE ${BGFX_DIR}/include )
 
 add_library( bgfx-bounds INTERFACE )
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/generated/bounds.cpp.in
@@ -28,7 +29,7 @@ target_include_directories( bgfx-bounds INTERFACE ${BGFX_DIR}/include )
 target_include_directories( bgfx-bounds INTERFACE ${BGFX_DIR}/examples/common )
 
 # Frameworks required on OS X
-if( APPLE AND NOT IOS)
+if( ${CMAKE_SYSTEM_NAME} MATCHES Darwin )
 	find_library( COCOA_LIBRARY Cocoa )
 	mark_as_advanced( COCOA_LIBRARY )
 	target_link_libraries( bgfx-vertexlayout INTERFACE ${COCOA_LIBRARY} )
