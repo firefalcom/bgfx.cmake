@@ -127,7 +127,10 @@ if( BGFX_INSTALL )
 			 INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 	)
 	if( NOT BGFX_LIBRARY_TYPE MATCHES "SHARED" )
-		install( TARGETS bimg bx astc-codec astc edtaa3 etc1 etc2 iqa squish nvtt pvrtc tinyexr
+		if(NOT NX)
+			set(NVTT nvtt)
+		endif()
+		install( TARGETS bimg bx astc-codec astc edtaa3 etc1 etc2 iqa squish ${NVTT} pvrtc tinyexr
 				 EXPORT "${TARGETS_EXPORT_NAME}"
 				 LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 				 ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
