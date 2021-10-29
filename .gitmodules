@@ -1,9 +1,9 @@
 [submodule "bgfx"]
 	path = bgfx
-	url = https://github.com/firefalcom/bgfx.git
+	url = git@github.com:firefalcom/bgfx.git
 [submodule "bx"]
 	path = bx
-	url = https://github.com/firefalcom/bx.git
+	url = git@github.com:firefalcom/bx.git
 [submodule "bimg"]
 	path = bimg
-	url = https://github.com/firefalcom/bimg.git
+	url = git@github.com:firefalcom/bimg.git
