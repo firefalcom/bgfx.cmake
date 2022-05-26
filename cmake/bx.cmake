@@ -45,7 +45,12 @@ target_include_directories( bx
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}> )
 
 # Build system specific configurations
-if( MINGW )
+if( PROSPERO OR ORBIS )
+	target_include_directories( bx
+		PUBLIC
+		    $<BUILD_INTERFACE:${BX_DIR}/include/compat/freebsd>
+		    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/compat/freebsd> )
+elseif( MINGW )
 	target_include_directories( bx
 		PUBLIC
 		    $<BUILD_INTERFACE:${BX_DIR}/include/compat/mingw>

@@ -17,7 +17,8 @@ include( cmake/3rdparty/spirv-cross.cmake )
 include( cmake/3rdparty/spirv-tools.cmake )
 include( cmake/3rdparty/webgpu.cmake )
 
-add_executable( shaderc ${BGFX_DIR}/tools/shaderc/shaderc.cpp ${BGFX_DIR}/tools/shaderc/shaderc.h ${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_hlsl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_pssl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp ${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp )
+add_executable( shaderc ${BGFX_DIR}/tools/shaderc/shaderc.cpp ${BGFX_DIR}/tools/shaderc/shaderc.h ${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_hlsl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_pssl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp ${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp ${BGFX_DIR}/tools/shaderc/shaderc_pssl2.cpp )
+target_include_directories( shaderc PRIVATE ${BGFX_DIR}/tools/shaderc/)
 target_compile_definitions( shaderc PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
 set_target_properties( shaderc PROPERTIES FOLDER "bgfx/tools" )
 target_link_libraries(shaderc PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu)
@@ -74,7 +75,7 @@ function( add_shader ARG_FILE )
 		set( PLATFORMS ${ARG_PLATFORMS} )
 	else()
 		if( MSVC )
-			set( PLATFORMS dx9 dx11 glsl essl asm.js spirv )
+			set( PLATFORMS dx9 dx11 glsl essl asm.js spirv pssl2 )
 		elseif( APPLE )
 			set( PLATFORMS metal glsl essl asm.js spirv )
 		else()
@@ -106,6 +107,7 @@ function( add_shader ARG_FILE )
 		set( GLSL_PROFILE PROFILE ${ARG_GLSL_VERSION} )
 	endif()
 	set( SPIRV_PROFILE PROFILE spirv )
+	set( PSSL2_PROFILE PROFILE pssl2 )
 
 	# Add commands
 	set( OUTPUTS "" )
@@ -153,6 +155,12 @@ function( add_shader ARG_FILE )
 			list( APPEND OPTIONS
 				LINUX
 				${SPIRV_PROFILE}
+				OUTPUT ${OUTPUT}
+			)
+		elseif( "${PLATFORM}" STREQUAL "pssl2" )
+			list( APPEND OPTIONS
+				PROSPERO
+				${PSSL2_PROFILE}
 				OUTPUT ${OUTPUT}
 			)
 		else()
@@ -205,7 +213,7 @@ endfunction()
 #	FILE filename
 #	OUTPUT filename
 #	FRAGMENT|VERTEX|COMPUTE
-#	ANDROID|ASM_JS|IOS|LINUX|NACL|OSX|WINDOWS
+#	ANDROID|ASM_JS|IOS|LINUX|NACL|OSX|WINDOWS|PROSPERO
 #	[PROFILE profile]
 #	[O 0|1|2|3]
 #	[VARYINGDEF filename]
@@ -221,7 +229,7 @@ endfunction()
 #	[WERROR]
 # )
 function( shaderc_parse ARG_OUT )
-	cmake_parse_arguments( ARG "DEPENDS;ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PREPROCESS;RAW;FRAGMENT;VERTEX;COMPUTE;VERBOSE;DEBUG;DISASM;WERROR" "FILE;OUTPUT;VARYINGDEF;BIN2C;PROFILE;O" "INCLUDES;DEFINES" ${ARGN} )
+	cmake_parse_arguments( ARG "DEPENDS;ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PROSPERO;PREPROCESS;RAW;FRAGMENT;VERTEX;COMPUTE;VERBOSE;DEBUG;DISASM;WERROR" "FILE;OUTPUT;VARYINGDEF;BIN2C;PROFILE;O" "INCLUDES;DEFINES" ${ARGN} )
 	set( CLI "" )
 
 	# -f
@@ -233,7 +241,7 @@ function( shaderc_parse ARG_OUT )
 	if( ARG_INCLUDES )
 		foreach( INCLUDE ${ARG_INCLUDES} )
 			list( APPEND CLI "-i" )
-			list( APPEND CLI "${INCLUDE}" )			
+			list( APPEND CLI "${INCLUDE}" )
 		endforeach()
 	endif()
 
@@ -254,7 +262,7 @@ function( shaderc_parse ARG_OUT )
 
 	# --platform
 	set( PLATFORM "" )
-	set( PLATFORMS "ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS" )
+	set( PLATFORMS "ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PROSPERO" )
 	foreach( P ${PLATFORMS} )
 		if( ARG_${P} )
 			if( PLATFORM )
@@ -281,6 +289,8 @@ function( shaderc_parse ARG_OUT )
 		list( APPEND CLI "--platform" "osx" )
 	elseif( "${PLATFORM}" STREQUAL "WINDOWS" )
 		list( APPEND CLI "--platform" "windows" )
+	elseif( "${PLATFORM}" STREQUAL "PROSPERO" )
+		list( APPEND CLI "--platform" "prospero" )
 	endif()
 
 	# --preprocess
