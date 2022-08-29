@@ -55,7 +55,7 @@ elseif( MINGW )
 		PUBLIC
 		    $<BUILD_INTERFACE:${BX_DIR}/include/compat/mingw>
 		    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/compat/mingw> )
-elseif( WIN32 )
+elseif( WIN32 OR SCARLETT)
 	target_include_directories( bx
 		PUBLIC
 			$<BUILD_INTERFACE:${BX_DIR}/include/compat/msvc>
