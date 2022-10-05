@@ -84,10 +84,14 @@ target_include_directories( bgfx
 		$<BUILD_INTERFACE:${BGFX_DIR}/include>
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-if( NOT SCARLETT )
+if( NOT SCARLETT AND NOT DURANGO)
 target_include_directories( bgfx
 	PRIVATE
 		${BGFX_DIR}/3rdparty/dxsdk/include)
+endif()
+
+if(DURANGO)
+	target_compile_definitions(bgfx PRIVATE NOMINMAX)
 endif()
 
 # bgfx depends on bx and bimg
