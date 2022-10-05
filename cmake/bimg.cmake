@@ -44,7 +44,7 @@ target_include_directories( bimg
 
 target_link_libraries( bimg PUBLIC bx PRIVATE astc-codec astc edtaa3 etc1 etc2 iqa squish pvrtc tinyexr )
 
-if(NOT NX)
+if(NOT NX AND NOT ORBIS AND NOT PROSPERO)
 target_link_libraries( bimg PRIVATE nvtt )
 endif()
 
