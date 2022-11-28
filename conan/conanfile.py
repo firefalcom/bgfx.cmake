@@ -2,7 +2,7 @@ from   conans       import ConanFile, CMake
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-10"
+    version         = "7816-11"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
