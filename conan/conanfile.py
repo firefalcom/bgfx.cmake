@@ -2,7 +2,7 @@ from   conans       import ConanFile, CMake
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-14"
+    version         = "7816-16"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -62,5 +62,5 @@ class BgfxConan(ConanFile):
             self.cpp_info.exelinkflags = ["-framework Cocoa", "-framework QuartzCore", "-framework OpenGL", "-weak_framework Metal"]
         if self.settings.os == "Linux":
             self.cpp_info.libs.extend(["GL", "X11", "pthread", "dl"])
-        if self.settings.os == "Windows":
+        if self.settings.os == "Windows" or self.settings.os == "WindowsStore":
             self.cpp_info.includedirs = ["include", "include/compat/msvc"]
