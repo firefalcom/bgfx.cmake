@@ -3,3 +3,10 @@
 /conaninfo.txt
 /graph_info.json
 /test_package/build
+CMakePresets.json
+conan_toolchain.cmake
+conanbuild*
+conanrun*
+deactivate*
+test_package/*.cmake
+test_package/CMakeUserPresets.json
