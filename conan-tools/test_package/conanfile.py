@@ -1,26 +1,23 @@
 import os
-
-from conans import ConanFile, CMake, tools
-
+from conan import ConanFile
+from conan.tools.files import copy
+from os.path import join
+from conan.tools.build import can_run
 
 class BgfxTestConan(ConanFile):
-    settings = "os", "arch"
-    generators = "cmake"
+    settings = "os", "compiler", "build_type", "arch"
+    generators = "VirtualBuildEnv"
 
-    def build(self):
-        cmake = CMake(self)
-        # Current dir is "test_package/build/<build_id>" and CMakeLists.txt is
-        # in "test_package"
-        cmake.configure()
-        cmake.build()
-
-    def imports(self):
-        self.copy("*", dst="bin", src="bin")
-        self.copy("*.dylib*", dst="bin", src="lib")
-        self.copy('*.so*', dst='bin', src='lib')
+    def requirements(self):
+        self.requires(self.tested_reference_str)
 
     def test(self):
-        if self.settings.os == "Windows":
-            self.run("shaderc.exe -i . -f test.fs -o test.out --type f", cwd="../../")
-        else:
-            self.run("shaderc -i . -f test.fs -o test.out --type f", cwd="../../")
+        if can_run(self):
+            shaderc = "shaderc"
+            if self.settings.os == "Windows":
+                shaderc = shaderc + ".exe"
+
+            cmd = shaderc + " -i . -f test.fs -o test.out --type fragment"
+            self.run("cd", env="conanrun")
+            self.run("echo %PATH%", env="conanrun")
+            self.run( cmd, env="conanrun")
