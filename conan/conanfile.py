@@ -76,6 +76,6 @@ class BgfxConan(ConanFile):
             self.cpp_info.frameworks.extend(["Cocoa", "QuartzCore", "OpenGL"])
             self.cpp_info.exelinkflags.extend(["-weak_framework", "Metal"])
         if self.settings.os == "Linux":
-            self.cpp_info.libs.extend(["GL", "X11", "pthread", "dl"])
+            self.cpp_info.system_libs.extend(["GL", "X11", "pthread", "dl"])
         if self.settings.os == "Windows" or self.settings.os == "WindowsStore":
             self.cpp_info.includedirs = ["include", "include/compat/msvc"]
