@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-16"
+    version         = "7816-17"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -15,11 +15,13 @@ class BgfxConan(ConanFile):
     generators      = "CMakeToolchain", "CMakeDeps"
     options         = {
             "shared": [True, False],
-            "multithreaded": [True, False]
+            "multithreaded": [True, False],
+            "maximum_vertex_stream": ["ANY"]
             }
     default_options = {
             "shared": False,
-            "multithreaded": True
+            "multithreaded": True,
+            "maximum_vertex_stream" : 0
             }
 
     def export(self):
@@ -45,6 +47,9 @@ class BgfxConan(ConanFile):
             "BGFX_BUILD_TOOLS": False,
             "BGFX_OPENGL_VERSION": 33
             }
+
+        if self.options.maximum_vertex_stream != 0:
+            options.update(BGFX_CONFIG_MAX_VERTEX_STREAMS = self.options.maximum_vertex_stream)
 
         cmake.configure(options)
         cmake.build()
