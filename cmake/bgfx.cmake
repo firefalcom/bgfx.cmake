@@ -70,6 +70,10 @@ if( NOT ${BGFX_OPENGLES_VERSION} STREQUAL "" )
 	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_RENDERER_OPENGLES_MIN_VERSION=${BGFX_OPENGLES_VERSION} )
 endif()
 
+if( NOT ${BGFX_CONFIG_MAX_VERTEX_STREAMS}  STREQUAL "" )
+	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_MAX_VERTEX_STREAMS=${BGFX_CONFIG_MAX_VERTEX_STREAMS} )
+endif()
+
 # Special Visual Studio Flags
 if( MSVC )
 	target_compile_definitions( bgfx PRIVATE "_CRT_SECURE_NO_WARNINGS" )

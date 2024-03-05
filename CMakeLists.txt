@@ -30,8 +30,9 @@ option( BGFX_AMALGAMATED      "Amalgamated bgfx build for faster compilation" OF
 option( BX_AMALGAMATED        "Amalgamated bx build for faster compilation"   OFF )
 option( BGFX_CONFIG_DEBUG     "Enables debug configuration on all builds"     OFF )
 option( BGFX_CONFIG_RENDERER_WEBGPU     "Enables the webgpu renderer"         OFF )
-option( BGFX_CONFIG_MULTITHREADED      "Enable multithread."                  ON  )
+option( BGFX_CONFIG_MULTITHREADED       "Enable multithread."                  ON  )
 
+set( BGFX_CONFIG_MAX_VERTEX_STREAMS  "" CACHE STRING "Specify the maximum amount of vertex stream" )
 set( BGFX_OPENGL_VERSION   ""       CACHE STRING "Specify minimum opengl version" )
 set( BGFX_OPENGLES_VERSION ""       CACHE STRING "Specify minimum OpenGL ES version" )
 set( BGFX_LIBRARY_TYPE     "STATIC" CACHE STRING "Linking type for library" )
