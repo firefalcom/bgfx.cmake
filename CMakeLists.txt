@@ -12,7 +12,7 @@ cmake_minimum_required( VERSION 3.0 )
 project(bgfx)
 
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -21,8 +21,8 @@ if( APPLE AND NOT XCODE )
 	set( CMAKE_CXX_FLAGS "-ObjC++" )
 endif()
 
-option( BGFX_BUILD_TOOLS      "Build bgfx tools."                             ON  )
-option( BGFX_BUILD_EXAMPLES   "Build bgfx examples."                          ON  )
+option( BGFX_BUILD_TOOLS      "Build bgfx tools."                             OFF  )
+option( BGFX_BUILD_EXAMPLES   "Build bgfx examples."                          OFF  )
 option( BGFX_INSTALL          "Create installation target."                   ON  )
 option( BGFX_INSTALL_EXAMPLES "Install examples and their runtimes."          OFF )
 option( BGFX_CUSTOM_TARGETS   "Include convenience custom targets."           ON  )
@@ -62,10 +62,15 @@ endif()
 # sets project version from api ver / git rev
 include( cmake/version.cmake )
 
-include( cmake/shared.cmake )
-include( cmake/bx.cmake )
-include( cmake/bimg.cmake )
-include( cmake/bgfx.cmake )
+# include( cmake/shared.cmake )
+# include( cmake/bx/bx.cmake )
+# include( cmake/bimg/bimg.cmake )
+# include( cmake/bgfx.cmake )
+
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cmake/bx)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cmake/bimg)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cmake/bgfx)
 
 if( BGFX_BUILD_TOOLS )
 	include( cmake/tools.cmake )
@@ -131,7 +136,8 @@ if( BGFX_INSTALL )
 		if(NOT NX AND NOT PROSPERO AND NOT ORBIS)
 			set(NVTT nvtt)
 		endif()
-		install( TARGETS bimg bx astc-codec astc edtaa3 etc1 etc2 iqa squish ${NVTT} pvrtc tinyexr
+		# install( TARGETS bimg bx ${NVTT} pvrtc tinyexr
+		install( TARGETS bimg bx 
 				 EXPORT "${TARGETS_EXPORT_NAME}"
 				 LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 				 ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
@@ -164,18 +170,18 @@ if( BGFX_INSTALL )
 		install( TARGETS shaderc
 			EXPORT "${TARGETS_EXPORT_NAME}"
 			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
-		install( TARGETS geometryc
-			EXPORT "${TARGETS_EXPORT_NAME}"
-			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
-    	install( TARGETS geometryv
-			EXPORT "${TARGETS_EXPORT_NAME}"
-			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
-		install( TARGETS texturec
-			EXPORT "${TARGETS_EXPORT_NAME}"
-			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
-		install( TARGETS texturev
-			EXPORT "${TARGETS_EXPORT_NAME}"
-			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
+		# install( TARGETS geometryc
+		# 	EXPORT "${TARGETS_EXPORT_NAME}"
+		# 	DESTINATION "${CMAKE_INSTALL_BINDIR}" )
+    	# install( TARGETS geometryv
+			# EXPORT "${TARGETS_EXPORT_NAME}"
+			# DESTINATION "${CMAKE_INSTALL_BINDIR}" )
+		# install( TARGETS texturec
+			# EXPORT "${TARGETS_EXPORT_NAME}"
+			# DESTINATION "${CMAKE_INSTALL_BINDIR}" )
+		# install( TARGETS texturev
+			# EXPORT "${TARGETS_EXPORT_NAME}"
+			# DESTINATION "${CMAKE_INSTALL_BINDIR}" )
 	endif()
 
 	# install examples

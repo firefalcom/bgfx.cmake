@@ -42,6 +42,8 @@ endif()
 # Create the bgfx target
 add_library( bgfx ${BGFX_LIBRARY_TYPE} ${BGFX_SOURCES} )
 
+target_compile_definitions( bgfx PUBLIC BGFX_CONFIG_RENDERER_VULKAN=1)
+
 if(BGFX_CONFIG_RENDERER_WEBGPU)
     include(cmake/3rdparty/webgpu.cmake)
     target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_RENDERER_WEBGPU=1)
