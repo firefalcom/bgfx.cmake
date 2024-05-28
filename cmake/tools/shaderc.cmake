@@ -17,11 +17,29 @@ include( cmake/3rdparty/spirv-cross.cmake )
 include( cmake/3rdparty/spirv-tools.cmake )
 include( cmake/3rdparty/webgpu.cmake )
 
-add_executable( shaderc ${BGFX_DIR}/tools/shaderc/shaderc.cpp ${BGFX_DIR}/tools/shaderc/shaderc.h ${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_hlsl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_pssl.cpp ${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp ${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp ${BGFX_DIR}/tools/shaderc/shaderc_pssl2.cpp )
+add_executable( shaderc
+	${BGFX_DIR}/tools/shaderc/shaderc.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc.h
+	${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_hlsl.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_pssl.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_pssl2.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_nvn.cpp)
 target_include_directories( shaderc PRIVATE ${BGFX_DIR}/tools/shaderc/)
 target_compile_definitions( shaderc PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
 set_target_properties( shaderc PROPERTIES FOLDER "bgfx/tools" )
-target_link_libraries(shaderc PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu)
+target_link_libraries( shaderc PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu )
+
+if(WIN32)
+	include( cmake/3rdparty/glslc-compiler.cmake )
+	target_link_libraries(shaderc PRIVATE glslc-compiler)
+	add_custom_command(TARGET shaderc POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:shaderc> $<TARGET_RUNTIME_DLLS:shaderc>
+		COMMAND_EXPAND_LISTS
+		)
+endif()
 
 if( BGFX_CUSTOM_TARGETS )
 	add_dependencies( tools shaderc )
@@ -163,6 +181,12 @@ function( add_shader ARG_FILE )
 				${PSSL2_PROFILE}
 				OUTPUT ${OUTPUT}
 			)
+		elseif( "${PLATFORM}" STREQUAL "nvn" )
+			list( APPEND OPTIONS
+				NVN
+				${NVN_PROFILE}
+				OUTPUT ${OUTPUT}
+			)
 		else()
 			message( SEND_ERROR "add_shader given bad platform: ${PLATFORM}" )
 			return()
@@ -229,7 +253,7 @@ endfunction()
 #	[WERROR]
 # )
 function( shaderc_parse ARG_OUT )
-	cmake_parse_arguments( ARG "DEPENDS;ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PROSPERO;PREPROCESS;RAW;FRAGMENT;VERTEX;COMPUTE;VERBOSE;DEBUG;DISASM;WERROR" "FILE;OUTPUT;VARYINGDEF;BIN2C;PROFILE;O" "INCLUDES;DEFINES" ${ARGN} )
+	cmake_parse_arguments( ARG "DEPENDS;ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PROSPERO;NVN;PREPROCESS;RAW;FRAGMENT;VERTEX;COMPUTE;VERBOSE;DEBUG;DISASM;WERROR" "FILE;OUTPUT;VARYINGDEF;BIN2C;PROFILE;O" "INCLUDES;DEFINES" ${ARGN} )
 	set( CLI "" )
 
 	# -f
@@ -262,7 +286,7 @@ function( shaderc_parse ARG_OUT )
 
 	# --platform
 	set( PLATFORM "" )
-	set( PLATFORMS "ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PROSPERO" )
+	set( PLATFORMS "ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PROSPERO;NVN" )
 	foreach( P ${PLATFORMS} )
 		if( ARG_${P} )
 			if( PLATFORM )
@@ -291,6 +315,8 @@ function( shaderc_parse ARG_OUT )
 		list( APPEND CLI "--platform" "windows" )
 	elseif( "${PLATFORM}" STREQUAL "PROSPERO" )
 		list( APPEND CLI "--platform" "prospero" )
+	elseif( "${PLATFORM}" STREQUAL "NVN" )
+		list( APPEND CLI "--platform" "nvn" )
 	endif()
 
 	# --preprocess
