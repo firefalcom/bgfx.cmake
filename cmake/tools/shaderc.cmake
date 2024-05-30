@@ -27,6 +27,7 @@ add_executable( shaderc
 	${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_pssl2.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_nvn.cpp)
+
 target_include_directories( shaderc PRIVATE ${BGFX_DIR}/tools/shaderc/)
 target_compile_definitions( shaderc PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
 set_target_properties( shaderc PROPERTIES FOLDER "bgfx/tools" )
@@ -39,6 +40,8 @@ if(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:shaderc> $<TARGET_RUNTIME_DLLS:shaderc>
 		COMMAND_EXPAND_LISTS
 		)
+else()
+	target_include_directories( shaderc PRIVATE ${BGFX_DIR}/3rdparty/glslc-compiler/Include )
 endif()
 
 if( BGFX_CUSTOM_TARGETS )
