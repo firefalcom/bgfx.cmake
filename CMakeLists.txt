@@ -8,7 +8,7 @@
 # You should have received a copy of the CC0 Public Domain Dedication along with
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-cmake_minimum_required( VERSION 3.0 )
+cmake_minimum_required( VERSION 3.25 )
 project(bgfx)
 
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
