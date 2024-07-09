@@ -26,7 +26,7 @@ class BgfxConan(ConanFile):
 
     def export(self):
         git = Git(self, self.recipe_folder)
-        scm_url, scm_commit = git.get_url_and_commit()
+        scm_url, scm_commit = git.get_url_and_commit('origin', True)
         update_conandata(self, {"sources": {"commit": scm_commit, "url": scm_url}})
 
     def source(self):
