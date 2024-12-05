@@ -13,4 +13,9 @@ install_manifest.txt
 generated/*
 !generated/*.in
 cmake_install.cmake
-.DS_Store
+.cache/
+.vscode/
+.idea/
+Makefile
+install*/
+cmake-build-*/

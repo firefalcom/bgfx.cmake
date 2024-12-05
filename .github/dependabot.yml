@@ -3,4 +3,9 @@ updates:
   - package-ecosystem: "gitsubmodule"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
+    groups:
+      # Name of the group
+      submodules:
+        patterns:
+          - "*"
