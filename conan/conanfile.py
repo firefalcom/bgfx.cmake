@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-28"
+    version         = "7816-29"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -64,6 +64,7 @@ class BgfxConan(ConanFile):
         self.collect_headers("bgfx/include")
         self.collect_headers("bimg/include")
         self.collect_headers("bx/include")
+        copy(self, "*.sh" , join(self.source_folder, "bgfx/src"), join(self.package_folder, "include"))
 
         copy(self, "*.a" , self.build_folder, join(self.package_folder, "lib"), keep_path=False)
         copy(self, "*.so" , self.build_folder, join(self.package_folder, "lib"), keep_path=False)
