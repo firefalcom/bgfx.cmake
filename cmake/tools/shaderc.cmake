@@ -22,6 +22,7 @@ add_executable( shaderc
 	${BGFX_DIR}/tools/shaderc/shaderc.h
 	${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_hlsl.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_hlsl_dxc.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_pssl.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp
