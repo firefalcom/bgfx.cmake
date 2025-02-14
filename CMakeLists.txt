@@ -32,10 +32,13 @@ option( BGFX_CONFIG_DEBUG     "Enables debug configuration on all builds"     OF
 option( BGFX_CONFIG_RENDERER_WEBGPU     "Enables the webgpu renderer"         OFF )
 option( BGFX_CONFIG_MULTITHREADED       "Enable multithread."                  ON  )
 
-set( BGFX_CONFIG_MAX_VERTEX_STREAMS  "" CACHE STRING "Specify the maximum amount of vertex stream" )
-set( BGFX_OPENGL_VERSION   ""       CACHE STRING "Specify minimum opengl version" )
-set( BGFX_OPENGLES_VERSION ""       CACHE STRING "Specify minimum OpenGL ES version" )
-set( BGFX_LIBRARY_TYPE     "STATIC" CACHE STRING "Linking type for library" )
+set( BGFX_CONFIG_MAX_VERTEX_STREAMS         "" CACHE STRING "Specify the maximum amount of vertex stream" )
+set( BGFX_CONFIG_MAX_SHADERS                "" CACHE STRING "Specify the maximum amount of shader" )
+set( BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM  "" CACHE STRING "Specify the number of bit to sort program, adjust the number of allowed programs" )
+set( BGFX_OPENGL_VERSION                    "" CACHE STRING "Specify minimum opengl version" )
+set( BGFX_OPENGLES_VERSION                  "" CACHE STRING "Specify minimum OpenGL ES version" )
+set( BGFX_LIBRARY_TYPE                "STATIC" CACHE STRING "Linking type for library" )
+
 
 set_property( CACHE BGFX_LIBRARY_TYPE PROPERTY STRINGS STATIC SHARED )
 

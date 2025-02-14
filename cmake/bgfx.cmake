@@ -74,6 +74,14 @@ if( NOT ${BGFX_CONFIG_MAX_VERTEX_STREAMS}  STREQUAL "" )
 	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_MAX_VERTEX_STREAMS=${BGFX_CONFIG_MAX_VERTEX_STREAMS} )
 endif()
 
+if( NOT ${BGFX_CONFIG_MAX_SHADERS}  STREQUAL "" )
+	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_MAX_SHADERS=${BGFX_CONFIG_MAX_SHADERS} )
+endif()
+
+if( NOT ${BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM}  STREQUAL "" )
+	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM=${BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM} )
+endif()
+
 # Special Visual Studio Flags
 if( MSVC )
 	target_compile_definitions( bgfx PRIVATE "_CRT_SECURE_NO_WARNINGS" )
