@@ -74,6 +74,10 @@ if( BGFX_BUILD_TOOLS )
 	include( cmake/tools.cmake )
 endif()
 
+if( BGFX_BUILD_SHADERC_LIB)
+	include( cmake/tools/shaderclib.cmake )
+endif()
+
 if( BGFX_BUILD_TOOLS OR BGFX_BUILD_EXAMPLES )
 	include( cmake/examples.cmake )
 endif()
@@ -105,11 +109,11 @@ if( BGFX_INSTALL )
 	else()
 		set(BGFX_COMPATIBILITY SameMinorVersion)
 	endif()
-	write_basic_package_version_file(
-		"${version_config}"
-		VERSION ${PROJECT_VERSION}
-		COMPATIBILITY ${BGFX_COMPATIBILITY}
-	)
+	# write_basic_package_version_file(
+	# 	"${version_config}"
+	# 	VERSION ${PROJECT_VERSION}
+	# 	COMPATIBILITY ${BGFX_COMPATIBILITY}
+	# )
 
 	# Configure '<PROJECT-NAME>Config.cmake'
 	# Use variables:
@@ -156,6 +160,7 @@ if( BGFX_INSTALL )
 	install( DIRECTORY ${BX_DIR}/include/bx ${BX_DIR}/include/compat ${BX_DIR}/include/tinystl DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 	install( DIRECTORY ${BIMG_DIR}/include/bimg DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 	install( DIRECTORY ${BGFX_DIR}/include/bgfx DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+	install( DIRECTORY ${BGFX_DIR}/tools/shaderc DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 	# header required for shader compilation
 	install( FILES ${BGFX_DIR}/src/bgfx_shader.sh ${BGFX_DIR}/src/bgfx_compute.sh
