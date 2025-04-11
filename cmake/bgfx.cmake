@@ -82,6 +82,14 @@ if( NOT ${BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM}  STREQUAL "" )
 	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM=${BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM} )
 endif()
 
+if( NOT ${BGFX_CONFIG_USE_BUDDY}  STREQUAL "" )
+	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_USE_BUDDY=${BGFX_CONFIG_USE_BUDDY} )
+endif()
+
+if( NOT ${BGFX_CONFIG_USE_OFFSET_ALLOCATOR}  STREQUAL "" )
+	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_USE_OFFSET_ALLOCATOR=${BGFX_CONFIG_USE_OFFSET_ALLOCATOR} )
+endif()
+
 # Special Visual Studio Flags
 if( MSVC )
 	target_compile_definitions( bgfx PRIVATE "_CRT_SECURE_NO_WARNINGS" )

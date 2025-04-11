@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-34"
+    version         = "7816-35"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -18,14 +18,16 @@ class BgfxConan(ConanFile):
             "multithreaded": [True, False],
             "maximum_vertex_stream": ["ANY"],
             "maximum_shader_count" : ["ANY"],
-            "sort_key_num_bits_program" : ["ANY"]
+            "sort_key_num_bits_program" : ["ANY"],
+            "renderer_allocator" : ["buddy", "offset"]
             }
     default_options = {
             "shared": False,
             "multithreaded": True,
             "maximum_vertex_stream" : 0,
             "maximum_shader_count" : 0,
-            "sort_key_num_bits_program" : 0
+            "sort_key_num_bits_program" : 0,
+            "renderer_allocator": "buddy"
             }
 
     def export(self):
@@ -60,6 +62,12 @@ class BgfxConan(ConanFile):
 
         if self.options.sort_key_num_bits_program != 0:
             options.update(BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM = self.options.sort_key_num_bits_program)
+
+        if self.options.renderer_allocator == "buddy":
+            options.update(BGFX_CONFIG_USE_BUDDY = 1)
+
+        if self.options.renderer_allocator == "offset":
+            options.update(BGFX_CONFIG_USE_OFFSET_ALLOCATOR = 1)
 
         cmake.configure(options)
         cmake.build()
