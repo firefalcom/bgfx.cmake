@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-39"
+    version         = "7816-40"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
