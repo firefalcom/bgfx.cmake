@@ -16,7 +16,7 @@ include( cmake/3rdparty/etc1.cmake )
 include( cmake/3rdparty/etc2.cmake )
 include( cmake/3rdparty/iqa.cmake )
 include( cmake/3rdparty/libsquish.cmake )
-if(NOT NX AND NOT PROSPERO AND NOT ORBIS)
+if(NOT NX AND NOT PROSPERO AND NOT ORBIS AND NOT OUNCE)
 include( cmake/3rdparty/nvtt.cmake )
 endif()
 include( cmake/3rdparty/pvrtc.cmake )
@@ -44,7 +44,7 @@ target_include_directories( bimg
 
 target_link_libraries( bimg PUBLIC bx PRIVATE astc-codec astc edtaa3 etc1 etc2 iqa squish pvrtc tinyexr )
 
-if(NOT NX AND NOT ORBIS AND NOT PROSPERO)
+if(NOT NX AND NOT ORBIS AND NOT PROSPERO AND NOT OUNCE)
 target_link_libraries( bimg PRIVATE nvtt )
 endif()
 

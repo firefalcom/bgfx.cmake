@@ -27,16 +27,35 @@ add_executable( shaderc
 	${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_pssl2.cpp
-	${BGFX_DIR}/tools/shaderc/shaderc_nvn.cpp)
+	)
 
-target_include_directories( shaderc PRIVATE ${BGFX_DIR}/tools/shaderc/)
-target_compile_definitions( shaderc PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
-set_target_properties( shaderc PROPERTIES FOLDER "bgfx/tools" )
-target_link_libraries( shaderc PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu )
+set( targets shaderc )
+if(WIN32)
+	add_library( shaderc_nvn  SHARED ${BGFX_DIR}/tools/shaderc/shaderc_nvn.cpp )
+	add_library( shaderc_nvn2 SHARED ${BGFX_DIR}/tools/shaderc/shaderc_nvn.cpp )
+	list(APPEND targets shaderc_nvn shaderc_nvn2)
+else()
+	target_sources( shaderc PRIVATE ${BGFX_DIR}/tools/shaderc/shaderc_nvn.cpp )
+endif()
+
+foreach( target ${targets} )
+	target_include_directories( ${target} PRIVATE ${BGFX_DIR}/tools/shaderc/)
+	target_compile_definitions( ${target} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
+	set_target_properties( ${target} PROPERTIES FOLDER "bgfx/tools" )
+	target_link_libraries( ${target} PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu )
+endforeach()
 
 if(WIN32)
 	include( cmake/3rdparty/glslc-compiler.cmake )
-	target_link_libraries(shaderc PRIVATE glslc-compiler)
+	target_compile_definitions( shaderc_nvn PRIVATE "-D_NVN" )
+	target_link_libraries(shaderc_nvn PRIVATE glslc-compiler)
+
+	include( cmake/3rdparty/glslc2-compiler.cmake )
+	target_compile_definitions( shaderc_nvn2 PRIVATE "-D_NVN2" )
+	target_link_libraries(shaderc_nvn2 PRIVATE glslc2-compiler)
+
+	target_link_libraries( shaderc PUBLIC shaderc_nvn shaderc_nvn2 )
+
 	add_custom_command(TARGET shaderc POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:shaderc> $<TARGET_RUNTIME_DLLS:shaderc>
 		COMMAND_EXPAND_LISTS
