@@ -34,6 +34,7 @@ option( BGFX_CONFIG_MULTITHREADED       "Enable multithread."                  O
 
 set( BGFX_CONFIG_MAX_VERTEX_STREAMS         "" CACHE STRING "Specify the maximum amount of vertex stream" )
 set( BGFX_CONFIG_MAX_SHADERS                "" CACHE STRING "Specify the maximum amount of shader" )
+set( BGFX_CONFIG_MAX_TEXTURES               "" CACHE STRING "Specify the maximum amount of textures" )
 set( BGFX_CONFIG_USE_BUDDY                  "" CACHE STRING "Use buddy allocator in renderers" )
 set( BGFX_CONFIG_USE_OFFSET_ALLOCATOR       "" CACHE STRING "Use offset allocator in renderers" )
 set( BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM  "" CACHE STRING "Specify the number of bit to sort program, adjust the number of allowed programs" )

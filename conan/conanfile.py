@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-41"
+    version         = "7816-42"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -18,6 +18,7 @@ class BgfxConan(ConanFile):
             "multithreaded": [True, False],
             "maximum_vertex_stream": ["ANY"],
             "maximum_shader_count" : ["ANY"],
+            "maximum_textures_count" : ["ANY"],
             "sort_key_num_bits_program" : ["ANY"],
             "renderer_allocator" : ["buddy", "offset"]
             }
@@ -26,6 +27,7 @@ class BgfxConan(ConanFile):
             "multithreaded": True,
             "maximum_vertex_stream" : 0,
             "maximum_shader_count" : 0,
+            "maximum_textures_count" : 0,
             "sort_key_num_bits_program" : 0,
             "renderer_allocator": "buddy"
             }
@@ -59,6 +61,9 @@ class BgfxConan(ConanFile):
 
         if self.options.maximum_shader_count != 0:
             options.update(BGFX_CONFIG_MAX_SHADERS = self.options.maximum_shader_count)
+            
+        if self.options.maximum_textures_count != 0:
+            options.update(BGFX_CONFIG_MAX_TEXTURES = self.options.maximum_textures_count)
 
         if self.options.sort_key_num_bits_program != 0:
             options.update(BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM = self.options.sort_key_num_bits_program)
