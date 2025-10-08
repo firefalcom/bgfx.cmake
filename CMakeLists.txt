@@ -138,7 +138,7 @@ if( BGFX_INSTALL )
 			 INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 	)
 	if( NOT BGFX_LIBRARY_TYPE MATCHES "SHARED" )
-		if(NOT NX AND NOT PROSPERO AND NOT ORBIS)
+		if(NOT NX AND NOT PROSPERO AND NOT ORBIS AND NOT OUNCE)
 			set(NVTT nvtt)
 		endif()
 		install( TARGETS bimg bx astc-codec astc edtaa3 etc1 etc2 iqa squish ${NVTT} pvrtc tinyexr
