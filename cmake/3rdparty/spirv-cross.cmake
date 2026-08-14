@@ -19,6 +19,8 @@ file(
 	${BGFX_DIR}/3rdparty/spirv-cross/*.h
 )
 
+list(FILTER SPIRV_CROSS_SOURCES EXCLUDE REGEX main.cpp)
+
 add_library( spirv-cross STATIC ${SPIRV_CROSS_SOURCES} )
 target_compile_definitions( spirv-cross PRIVATE SPIRV_CROSS_EXCEPTIONS_TO_ASSERTIONS )
 target_include_directories( spirv-cross PUBLIC

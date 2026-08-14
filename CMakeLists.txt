@@ -141,7 +141,7 @@ if( BGFX_INSTALL )
 		if(NOT NX AND NOT PROSPERO AND NOT ORBIS AND NOT OUNCE)
 			set(NVTT nvtt)
 		endif()
-		install( TARGETS bimg bx astc-codec astc edtaa3 etc1 etc2 iqa squish ${NVTT} pvrtc tinyexr
+		install( TARGETS bimg bx astc edtaa3 etc1 etc2 iqa squish ${NVTT} pvrtc tinyexr
 				 EXPORT "${TARGETS_EXPORT_NAME}"
 				 LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 				 ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
@@ -149,7 +149,7 @@ if( BGFX_INSTALL )
 				 INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 		)
 	endif()
-    if (BGFX_CONFIG_RENDERER_WEBGPU)
+	if (BGFX_CONFIG_RENDERER_WEBGPU)
 		install( TARGETS webgpu
 				 EXPORT "${TARGETS_EXPORT_NAME}"
 				 LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
@@ -157,7 +157,7 @@ if( BGFX_INSTALL )
 				 RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 				 INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 		)
-    endif()
+	endif()
 
 	# install headers (this should be done as a target probably... ^)
 	install( DIRECTORY ${BX_DIR}/include/bx ${BX_DIR}/include/compat ${BX_DIR}/include/tinystl DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
@@ -178,7 +178,7 @@ if( BGFX_INSTALL )
 		install( TARGETS geometryc
 			EXPORT "${TARGETS_EXPORT_NAME}"
 			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
-    	install( TARGETS geometryv
+		install( TARGETS geometryv
 			EXPORT "${TARGETS_EXPORT_NAME}"
 			DESTINATION "${CMAKE_INSTALL_BINDIR}" )
 		install( TARGETS texturec

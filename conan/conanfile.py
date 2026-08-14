@@ -92,9 +92,6 @@ class BgfxConan(ConanFile):
         copy(self, "*.a" , self.build_folder, join(self.package_folder, "lib"), keep_path=False)
         copy(self, "*.so" , self.build_folder, join(self.package_folder, "lib"), keep_path=False)
         copy(self, "*.lib" , self.build_folder, join(self.package_folder, "lib"), keep_path=False)
-        copy(self, "*.dll" , self.build_folder, join(self.package_folder, "bin"), keep_path=False)
-        copy(self, "shaderc" , self.build_folder, join(self.package_folder, "bin"))
-        copy(self, "*.exe" , self.build_folder, join(self.package_folder, "bin"), keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["bgfx", "bimg", "bx"]
