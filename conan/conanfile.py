@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-44"
+    version         = "9149-1"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -44,7 +44,7 @@ class BgfxConan(ConanFile):
         git = Git(self)
         git.clone(url=sources["url"], target=".")
         git.checkout(commit=sources["commit"])
-        self.run("git submodule update --init")
+        self.run("git submodule update --init --depth=1")
 
     def build(self):
         cmake = CMake(self)
@@ -95,7 +95,7 @@ class BgfxConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["bgfx", "bimg", "bx"]
-        self.cpp_info.libs.extend(["astc-codec", "astc", "edtaa3", "etc1", "etc2", "iqa", "squish", "pvrtc", "tinyexr"])
+        self.cpp_info.libs.extend(["astc", "edtaa3", "etc1", "etc2", "iqa", "squish", "pvrtc", "tinyexr"])
         if self.settings.os != "Switch" and self.settings.os != "Orbis" and self.settings.os != "Prospero":
             self.cpp_info.libs.extend(["nvtt"])
         if self.settings.os == "Macos":

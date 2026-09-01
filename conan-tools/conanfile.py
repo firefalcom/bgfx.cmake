@@ -7,7 +7,7 @@ from conan.tools.files import load, update_conandata
 
 class BgfxConan(ConanFile):
     name            = "bgfx_tools"
-    version         = "7816-14"
+    version         = "9149-1"
     description     = "Conan tool package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -26,7 +26,7 @@ class BgfxConan(ConanFile):
         git = Git(self)
         git.clone(url=sources["url"], target=".")
         git.checkout(commit=sources["commit"])
-        self.run("git submodule update --init")
+        self.run("git submodule update --init --depth=1")
 
     def build(self):
         cmake = CMake(self)
