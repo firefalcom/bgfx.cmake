@@ -8,7 +8,7 @@ import shutil
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-49"
+    version         = "7816-50"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -63,7 +63,7 @@ class BgfxConan(ConanFile):
             git = Git(self)
             git.clone(url=sources["url"], target=".")
             git.checkout(commit=sources["commit"])
-            self.run("git submodule update --init")
+            self.run("git submodule update --init --depth=1")
 
     def build(self):
         cmake = CMake(self)
