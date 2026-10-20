@@ -8,7 +8,7 @@ import shutil
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "9149-1"
+    version         = "9149-2"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
