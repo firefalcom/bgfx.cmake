@@ -20,6 +20,7 @@ include( cmake/3rdparty/webgpu.cmake )
 add_executable( shaderc
 	${BGFX_DIR}/tools/shaderc/shaderc.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc.h
+	${BGFX_DIR}/tools/shaderc/shaderc_dxil.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_hlsl.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_hlsl_dxc.cpp
@@ -27,6 +28,7 @@ add_executable( shaderc
 	${BGFX_DIR}/tools/shaderc/shaderc_spirv.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_metal.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc_pssl2.cpp
+	${BGFX_DIR}/tools/shaderc/shaderc_wgsl.cpp
 	)
 
 set( targets shaderc )
@@ -40,7 +42,7 @@ endif()
 
 foreach( target ${targets} )
 	target_include_directories( ${target} PRIVATE ${BGFX_DIR}/tools/shaderc/)
-	target_compile_definitions( ${target} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
+	target_compile_definitions( ${target} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" -D_SHADERC_BINARY )
 	set_target_properties( ${target} PROPERTIES FOLDER "bgfx/tools" )
 	target_link_libraries( ${target} PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu )
 endforeach()
@@ -69,7 +71,7 @@ if( BGFX_CUSTOM_TARGETS )
 endif()
 
 if (ANDROID)
-    target_link_libraries(shaderc PRIVATE log)
+	target_link_libraries(shaderc PRIVATE log)
 elseif (IOS)
 	set_target_properties(shaderc PROPERTIES MACOSX_BUNDLE ON
 											 MACOSX_BUNDLE_GUI_IDENTIFIER shaderc)

@@ -8,7 +8,7 @@ import shutil
 
 class BgfxConan(ConanFile):
     name            = "bgfx"
-    version         = "7816-50"
+    version         = "9149-2"
     description     = "Conan package for bgfx."
     url             = "https://github.com/bkaradzic/bgfx"
     license         = "BSD"
@@ -114,7 +114,7 @@ class BgfxConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["bgfx", "bimg", "bx"]
-        self.cpp_info.libs.extend(["astc-codec", "astc", "edtaa3", "etc1", "etc2", "iqa", "squish", "pvrtc", "tinyexr"])
+        self.cpp_info.libs.extend(["astc", "edtaa3", "etc1", "etc2", "iqa", "squish", "pvrtc", "tinyexr"])
         if self.settings.os != "Switch" and self.settings.os != "Orbis" and self.settings.os != "Prospero":
             self.cpp_info.libs.extend(["nvtt"])
         if self.settings.os == "Macos":
