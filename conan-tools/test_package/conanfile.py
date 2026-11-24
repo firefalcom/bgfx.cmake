@@ -17,7 +17,7 @@ class BgfxTestConan(ConanFile):
             if self.settings.os == "Windows":
                 shaderc = shaderc + ".exe"
 
-            cmd = shaderc + " -i . -f test.fs -o test.out --type fragment"
+            cmd = shaderc + " -i . -f test.fs -o test.out --type fragment -p s_5_0"
             self.run("cd", env="conanrun")
             self.run("echo %PATH%", env="conanrun")
             self.run( cmd, env="conanrun")

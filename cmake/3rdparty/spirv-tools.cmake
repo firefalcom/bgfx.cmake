@@ -27,6 +27,8 @@ file(
 	${BGFX_DIR}/3rdparty/spirv-tools/source/val/*.h
 )
 
+list( FILTER SPIRV_TOOLS_SOURCES EXCLUDE REGEX mimalloc )
+
 add_library( spirv-tools STATIC ${SPIRV_TOOLS_SOURCES} )
 target_include_directories( spirv-tools PUBLIC
 	${BGFX_DIR}/3rdparty/spirv-headers/include

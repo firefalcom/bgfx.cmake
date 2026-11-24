@@ -52,12 +52,6 @@ if(BGFX_CONFIG_RENDERER_WEBGPU)
     endif()
 endif()
 
-# Enable BGFX_CONFIG_DEBUG in Debug configuration
-target_compile_definitions( bgfx PRIVATE "$<$<CONFIG:Debug>:BGFX_CONFIG_DEBUG=1>" )
-if(BGFX_CONFIG_DEBUG)
-	target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_DEBUG=1)
-endif()
-
 if(NOT BGFX_CONFIG_MULTITHREADED)
   target_compile_definitions( bgfx PRIVATE BGFX_CONFIG_MULTITHREADED=0)
 endif()
@@ -111,7 +105,7 @@ target_include_directories( bgfx
 if( NOT SCARLETT AND NOT DURANGO)
 target_include_directories( bgfx
 	PRIVATE
-		${BGFX_DIR}/3rdparty/dxsdk/include)
+		${BGFX_DIR}/3rdparty/directx-headers/include/directx)
 endif()
 
 if(DURANGO)

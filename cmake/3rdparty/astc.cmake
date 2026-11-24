@@ -12,8 +12,8 @@ if( TARGET astc )
 	return()
 endif()
 
-file( GLOB ASTC_SOURCES ${BIMG_DIR}/3rdparty/astc/*.cpp ${BIMG_DIR}/3rdparty/astc/*.h )
+file( GLOB ASTC_SOURCES ${BIMG_DIR}/3rdparty/astc-encoder/source/*.cpp ${BIMG_DIR}/3rdparty/astc-encoder/include/*.h )
 
 add_library( astc STATIC ${ASTC_SOURCES} )
-target_include_directories( astc PUBLIC $<BUILD_INTERFACE:${BIMG_DIR}/3rdparty> )
+target_include_directories( astc PUBLIC $<BUILD_INTERFACE:${BIMG_DIR}/3rdparty/astc-encoder/include> )
 set_target_properties( astc PROPERTIES FOLDER "bgfx/3rdparty" )

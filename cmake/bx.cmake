@@ -72,9 +72,14 @@ target_compile_definitions( bx PUBLIC "__STDC_LIMIT_MACROS" )
 target_compile_definitions( bx PUBLIC "__STDC_FORMAT_MACROS" )
 target_compile_definitions( bx PUBLIC "__STDC_CONSTANT_MACROS" )
 
-target_compile_definitions( bx PRIVATE "$<$<CONFIG:Debug>:BX_CONFIG_DEBUG=1>" )
 if(BGFX_CONFIG_DEBUG)
-	target_compile_definitions( bx PRIVATE BX_CONFIG_DEBUG=1)
+	target_compile_definitions( bx PUBLIC BX_CONFIG_DEBUG=1)
+else()
+	target_compile_definitions( bx PUBLIC "BX_CONFIG_DEBUG=$<IF:$<CONFIG:Debug>,1,0>" )
+endif()
+
+if( WIN32 OR SCARLETT)
+	target_compile_options( bx PUBLIC /Zc:__cplusplus /Zc:preprocessor )
 endif()
 
 # Additional dependencies on Unix

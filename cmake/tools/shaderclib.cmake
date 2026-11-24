@@ -19,7 +19,7 @@ include( cmake/3rdparty/spirv-cross.cmake )
 include( cmake/3rdparty/spirv-tools.cmake )
 include( cmake/3rdparty/webgpu.cmake )
 
-add_library( shaderclib SHARED
+add_library( shaderclib STATIC
 	${BGFX_DIR}/tools/shaderc/shaderc.cpp
 	${BGFX_DIR}/tools/shaderc/shaderc.h
 	${BGFX_DIR}/tools/shaderc/shaderc_glsl.cpp
@@ -42,7 +42,7 @@ set_property(TARGET webgpu PROPERTY POSITION_INDEPENDENT_CODE ON)
 set_property(TARGET glcpp PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories( shaderclib PUBLIC ${BGFX_DIR}/tools/shaderc/)
-target_compile_definitions( shaderclib PRIVATE "-D_CRT_SECURE_NO_WARNINGS" )
+target_compile_definitions( shaderclib PRIVATE "-D_CRT_SECURE_NO_WARNINGS" -D_SHADERC_LIB )
 # set_target_properties( shaderclib PROPERTIES FOLDER "bgfx/tools" )
 target_link_libraries( shaderclib PRIVATE bx bimg bgfx-vertexlayout bgfx-shader fcpp glsl-optimizer glslang spirv-cross spirv-tools webgpu )
 
@@ -57,16 +57,9 @@ else()
 	target_include_directories( shaderclib PRIVATE ${BGFX_DIR}/3rdparty/glslc-compiler/Include )
 endif()
 
-if( BGFX_CUSTOM_TARGETS )
-	add_dependencies( tools shaderc )
-endif()
-
 if (ANDROID)
-    target_link_libraries(shaderclib PRIVATE log)
+	target_link_libraries(shaderclib PRIVATE log)
 elseif (IOS)
 	set_target_properties(shaderclib PROPERTIES MACOSX_BUNDLE ON
 											 MACOSX_BUNDLE_GUI_IDENTIFIER shaderc)
 endif()
-
-
-

@@ -9,7 +9,6 @@
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 # Third party libs
-include( cmake/3rdparty/astc-codec.cmake )
 include( cmake/3rdparty/astc.cmake )
 include( cmake/3rdparty/edtaa3.cmake )
 include( cmake/3rdparty/etc1.cmake )
@@ -42,7 +41,7 @@ target_include_directories( bimg
 
 # bimg dependencies
 
-target_link_libraries( bimg PUBLIC bx PRIVATE astc-codec astc edtaa3 etc1 etc2 iqa squish pvrtc tinyexr )
+target_link_libraries( bimg PUBLIC bx PRIVATE astc edtaa3 etc1 etc2 iqa squish pvrtc tinyexr )
 
 if(NOT NX AND NOT ORBIS AND NOT PROSPERO AND NOT OUNCE)
 target_link_libraries( bimg PRIVATE nvtt )

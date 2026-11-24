@@ -4,7 +4,9 @@
 int main()
 {
 	return 0;
-	if( !bgfx::init() )
+
+	bgfx::Init init;
+	if( !bgfx::init(init) )
 	{
 		// Since we don't have any platform data (window handle, etc) for it took into,
 		// BGFX correctly fails to initialize. But we linked and ran, so test successful!
